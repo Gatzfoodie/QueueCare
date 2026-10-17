@@ -10,7 +10,8 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
 app.secret_key = "change-this-secret-key"          # change before real use
-DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "queuecare.db")
+LOCAL_DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "queuecare.db")
+DB_PATH = os.environ.get("DATABASE_PATH", LOCAL_DB_PATH)
 
 SLOTS = ["08:00", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"]
 STATUSES = ["Booked", "Waiting", "In Consultation", "Done", "Cancelled"]

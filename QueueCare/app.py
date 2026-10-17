@@ -75,8 +75,8 @@ def init_db():
         ])
 
     # Optional demo account for deployments using a temporary database.
-    demo_email = os.environ.get("DEMO_USER_EMAIL", "").strip().lower()
-    demo_password = os.environ.get("DEMO_USER_PASSWORD", "")
+    demo_email = os.environ.get("DEMO_USER_EMAIL", "test@gmail.com").strip().lower()
+    demo_password = os.environ.get("DEMO_USER_PASSWORD", "12345")
     if demo_email and demo_password:
         hashed_password = generate_password_hash(demo_password)
         if db.execute("SELECT 1 FROM users WHERE email=?", (demo_email,)).fetchone():

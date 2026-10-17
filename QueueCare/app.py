@@ -73,6 +73,18 @@ def init_db():
             ("Immunization", "Nurse Jose Cruz"),
             ("Dental Consultation", "Dr. Paolo Lim"),
         ])
+
+    # Optional demo account for deployments using a temporary database.
+    demo_email = os.environ.get("DEMO_USER_EMAIL", "").strip().lower()
+    demo_password = os.environ.get("DEMO_USER_PASSWORD", "")
+    if demo_email and demo_password:
+        hashed_password = generate_password_hash(demo_password)
+        if db.execute("SELECT 1 FROM users WHERE email=?", (demo_email,)).fetchone():
+            db.execute("UPDATE users SET password=? WHERE email=?",
+                       (hashed_password, demo_email))
+        else:
+            db.execute("INSERT INTO users(name,email,phone,password,role) VALUES (?,?,?,?,?)",
+                       ("Demo User", demo_email, "", hashed_password, "patient"))
     db.commit()
     db.close()
 
